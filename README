@@ -1,0 +1,55 @@
+#   Copyright 2011-2012 Opera Software ASA 
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+The git-splitter performs two operations: 
+
+  - Split: Separates out all commits in a specific folder in a Git repository
+  as a separate repository, removing the folder name, allowing the new 
+  repository to be used as a submodule
+  
+  - Replant: Creates a new repository based on the commits in the source
+  repository, prepending a folder name for all the files. This allows updates 
+  in the submodule to be integrated in the original repository without 
+  duplicating the commit history by rebasing new commits onto a branch in the 
+  original repository
+  
+  The code also have the experimental functionality that tag each commit in 
+  the repository with the original commit ID
+ 
+Usage:
+
+  splitter [split | replant] {options} {rev}
+  
+  rev is a commit or commit-range, by default master. Result of specifying 
+  more than one rev is undefined 
+  
+Options:
+
+  --prefix: Path to the folder that will be split off, or the path that will 
+  be prepended on the filenames in the repository.
+  
+  --branch: Name of target branch
+  
+  --onto: Commit to put the converted commits on top of. Used if 
+  
+  --tag <name>: Experimental functionality: tag each split commit with 
+  <name>-x-<from-commit>, and each replanted commit <name>-x--<commit> and 
+  (if it exists) <name>-x-<from-commit>-<commit>. This allows mapping back 
+  and forth between the original repository and the submodule.
+  
+  --repo <name>: Source git repo. Defaults to current directory. Use when 
+  executing from a parent directory 
+  
+  --push <name>: Target git repo, path relative to work repo. The resulting 
+  branch will be pushed to this repo.
