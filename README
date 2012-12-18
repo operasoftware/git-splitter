@@ -53,3 +53,24 @@ Options:
   
   --push <name>: Target git repo, path relative to work repo. The resulting 
   branch will be pushed to this repo.
+
+Examples:
+
+In "original" repo:
+
+python ../git-splitter/splitter.py replant --branch my-master --prefix foldername --push ../my-module master
+
+will take all files "foldername/path/example.ext" in the "foldername" directory
+and remove the "foldername" prefix, and copy the files and their commit history
+into the my-module repository as the branch "my-master"
+
+
+In "my-module" repo
+
+python ../git-splitter/splitter.py replant --branch mymodule-master --prefix foldername --push ../module-migrate my-master
+
+will convert all all files path/example.ext to foldername/path/example.ext, 
+with the same history, and will push it to the module-migrate repository as
+the branch mymodule-master, which can then be fetched into the "original" code 
+repository, and new commits can then be rebased (or merged) into the original
+code base.
